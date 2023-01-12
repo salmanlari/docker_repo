@@ -4,16 +4,54 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-jobs:
-  build_and_push:
+# jobs:
+#   build_and_push:
 
+#     runs-on: ubuntu-latest
+
+#     steps:
+
+#       - uses: actions/checkout@v3
+
+
+#       - name: Generate tags
+#         id: docker_tags
+#         uses: anothrNick/github-tag-action@1.40.0
+#         env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          WITH_V: true
+         
+#       - name: Build and Push Docker Image
+#         uses: mr-smithers-excellent/docker-build-push@v5.8
+#         with:
+#           image: 7011347758/test
+#           tags: ${{ steps.docker_tags.outputs.tag }}
+#           registry: docker.io
+#           username: ${{ secrets.DOCKER_USERNAME }}
+#           password: ${{ secrets.DOCKER_PASSWORD }}
+          
+          ##############
+
+
+
+
+jobs:
+  # This workflow contains a single job called "deploy"
+  deploy:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ${{ github.sha }}
+      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      DOCKER_USER: ${{secrets.DOCKER_HUB_USERNAME}}
+      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}                                                                                               
+      RELEASE_IMAGE: 7011347758/test:v0.2.0:${{ github.sha }}
 
     steps:
-
       - uses: actions/checkout@v3
-
-
+    
+    
+    
       - name: Generate tags
         id: docker_tags
         uses: anothrNick/github-tag-action@1.40.0
@@ -29,7 +67,20 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          
-          ###
+  
+#     - uses: actions/checkout@v2
+#     - name: docker login
+#       run: |
+#         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+#     - name: Build the Docker image
+#       run: docker build . --file Dockerfile --tag $RELEASE_IMAGE
+      
+#     - name: Docker Push
+#       run: docker push $RELEASE_IMAGE
+
+      - name: Deploy to Kubernetes cluster                                                                            
+        uses: kodermax/kubectl-aws-eks@master                   
+        with:                                                                                                         
+         args: set image deployment/7011347758/test app=${{ env.RELEASE_IMAGE }} --record  
 
 
