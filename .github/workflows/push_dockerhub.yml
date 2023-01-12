@@ -81,6 +81,6 @@ jobs:
       - name: Deploy to Kubernetes cluster                                                                            
         uses: kodermax/kubectl-aws-eks@master                   
         with:                                                                                                         
-         args: set image deployment/7011347758/test app=${{ env.RELEASE_IMAGE }} --record  
+         args: set image deployment/ecomm-app app=${{ env.RELEASE_IMAGE }} --record  
 
 
