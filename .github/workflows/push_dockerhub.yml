@@ -45,7 +45,7 @@ jobs:
       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       DOCKER_USER: ${{secrets.DOCKER_HUB_USERNAME}}
       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}                                                                                               
-      RELEASE_IMAGE: 7011347758/test:v0.2.0:${{ github.sha }}
+      RELEASE_IMAGE: 7011347758/test${{ github.sha }}
 
     steps:
       - uses: actions/checkout@v3
