@@ -82,5 +82,7 @@ jobs:
         uses: kodermax/kubectl-aws-eks@master                   
         with:                                                                                                         
          args: set image deployment/ecomm-app app=${{ env.RELEASE_IMAGE }} --record  
+         
+         ##
 
 
