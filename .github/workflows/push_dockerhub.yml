@@ -73,21 +73,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
   
-#     - uses: actions/checkout@v2
-#     - name: docker login
-#       run: |
-#         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
-#     - name: Build the Docker image
-#       run: docker build . --file Dockerfile --tag $RELEASE_IMAGE
-      
-#     - name: Docker Push
-#       run: docker push $RELEASE_IMAGE
+
 
       - name: Deploy to Kubernetes cluster                                                                            
         uses: kodermax/kubectl-aws-eks@master                   
         with:                                                                                                         
          args: set image deployment/ecomm-app app=7011347758/test:${{ steps.docker_tags.outputs.tag }} --record  
          
-         ####
+         #####
 
 
